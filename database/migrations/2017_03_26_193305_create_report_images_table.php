@@ -15,6 +15,11 @@ class CreateReportImagesTable extends Migration
     {
         Schema::create('report_images', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->unsigned();
+            $table->integer('report_id')->unsigned();
+            $table->string('path');
+            $table->string('image');
+            $table->integer('is_preview')->default(0);
             $table->timestamps();
         });
     }
