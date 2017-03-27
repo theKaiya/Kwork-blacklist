@@ -12,7 +12,6 @@ function Container($section = 'section', $states = []) {
 
     this.spinner_more = false;
 
-    this.sign_in_to_continue = false;
 
     /**
      * Create a cache slots for current allowed $states in url.
@@ -20,7 +19,7 @@ function Container($section = 'section', $states = []) {
     this.createItemSlots = function ()
     {
         $states.forEach(function (item, index) {
-            self.items[item] = {page: 1};
+            self.items[item] = {page: 1, sign_in_to_continue: false};
         });
     }
 
@@ -62,7 +61,7 @@ function Container($section = 'section', $states = []) {
             items.last_page = object.last_page;
             items.items = object.data;
         }
-        this.get().sign_in_to_continue = this.get().page > 2 && !auth.check ? true : false;
+        this.get().sign_in_to_continue = this.get().page >= sign_in_to_continue && !auth ? true : false;
     }
 
     /**

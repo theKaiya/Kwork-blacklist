@@ -39,6 +39,11 @@
         }
     </style>
 
+    <script>
+        var auth = "{{ auth()->check() }}";
+        var sign_in_to_continue = 2;
+    </script>
+
 </head>
 <body class="container">
 <div class="app-header navbar-md white box-shadow">

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\ReportImage;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
+use App\ReportImage;
 use Carbon\Carbon;
 use App\Person;
 use App\Report;
@@ -85,7 +86,7 @@ class ReportController extends Controller
         return $this->validate($request, [
             'title' => 'required|max:255',
             'description' => 'required|max:255',
-            'images' => 'image|mimes:jpg,png',
+            'images.*' => 'image|mimes:jpg,png',
             'people' => 'required|integer',
         ]);
     }
@@ -114,24 +115,19 @@ class ReportController extends Controller
     }
 
     /**
-     * Upload report images.
-     *
      * @param Report $report
      */
     public function uploadImages (Report $report)
     {
         $files = Input::file('images');
 
-        if(!is_array($files))
-            $files[] = $files;
-
         $images = [];
 
         foreach($files as $file)
         {
-            $path = "/uploads/reports/".Carbon::now()->timestamp.'/';
+            $image = str_random(30).'.jpg';
 
-            $image = str_random(15).'.jpg';
+            $path = 'uploads/reports/';
 
             Image::make($file)->save(public_path($path.$image));
 
@@ -144,6 +140,5 @@ class ReportController extends Controller
         }
 
         ReportImage::insert($images);
-
     }
 }

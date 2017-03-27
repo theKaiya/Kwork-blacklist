@@ -11,7 +11,7 @@
                     @include('errors.session')
                     <div class="form-group">
                         <label>Заголовок</label>
-                        <input name="title" type="text" class="form-control" placeholder="Меня обманули..." >
+                        <input name="title" type="text" class="form-control" placeholder="Меня обманули..." required>
                     </div>
                     <div class="form-group">
                         <label>Описание</label>
@@ -20,7 +20,7 @@
 
                     <div class="form-group">
                         <label>Доказательства</label>
-                        <input name="images" type="file" class="form-control" multiple>
+                        <input name="images[]" type="file" class="form-control" multiple>
                     </div>
 
                     <div class="form-group">

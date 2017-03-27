@@ -12,6 +12,6 @@ class ReportImage extends Model
 
     public function getLinkAttribute ()
     {
-        return asset("/uploads/".$this->path.$this->image);
+        return asset($this->path.$this->image);
     }
 }
