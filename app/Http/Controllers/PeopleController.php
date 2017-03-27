@@ -30,7 +30,7 @@ class PeopleController extends Controller
     public function create_action (Request $request)
     {
         $this->validate($request, [
-           'url' => 'required|max:255|url'
+           'url' => 'required|max:255|url|https'
         ]);
 
         $url = $request->get('url');
