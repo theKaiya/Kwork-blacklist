@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use App\User;
 
 class RegisterController extends Controller
 {
@@ -19,8 +18,6 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
-
-    use RegistersUsers;
 
     /**
      * Where to redirect users after registration.
@@ -42,35 +39,59 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
+     * @param $data
      */
-    protected function validator(array $data)
+    protected function validator(Request $data)
     {
-        return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
+        return $this->validate($data, [
+            'username' => 'required|max:15|min:3',
+            'email' => 'required|max:255',
+            'password' => 'required'
         ]);
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param $data
      * @return User
      */
-    protected function create(array $data)
+    protected function create(Request $data)
     {
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'username' => $data->get('username'),
+            'email' => $data->get('email'),
+            'password' => bcrypt($data->get('password')),
+            'is_admin' => 0,
         ]);
     }
 
+    /**
+     *
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function show ()
     {
         return view('auth.register');
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function action (Request $request)
+    {
+        $this->validator($request);
+
+        $user = $this->create($request);
+
+        if($user) {
+            auth()->loginUsingId($user->id);
+
+            return redirect()->route('home');
+        }
+
+        return redirect()->back()->with('error', 'Во время регистрации произошла ошибка.');
     }
 }

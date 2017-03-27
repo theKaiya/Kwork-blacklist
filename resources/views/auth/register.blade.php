@@ -7,7 +7,8 @@
         <div class="m-b text-sm">
             Регистрация
         </div>
-        <form name="form">
+        <form name="form" action="{{ route('register_action') }}" method="post">
+            @include('errors.session')
             <div class="md-form-group float-label">
                 <input name="email" type="email" class="md-input" required>
                 <label><small>Емейл</small></label>
@@ -25,6 +26,7 @@
                     <input type="checkbox"><i class="primary"></i> Согласен с правилами сервиса
                 </label>
             </div>
+            {{ csrf_field() }}
             <button type="submit" class="btn primary btn-block p-x-md">Регистрация</button>
         </form>
     </div>
