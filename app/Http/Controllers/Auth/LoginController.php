@@ -57,6 +57,7 @@ class LoginController extends Controller
         return redirect()->route('home');
     }
 
+
     /**
      * Try to auth user.
      *
