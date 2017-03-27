@@ -48,6 +48,16 @@ class LoginController extends Controller
     }
 
     /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function logout ()
+    {
+        auth()->logout();
+
+        return redirect()->route('home');
+    }
+
+    /**
      * Try to auth user.
      *
      * @param Request $request
