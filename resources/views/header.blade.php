@@ -50,21 +50,33 @@
                 <path d="M 4 4 L 24 4 L 4  44 Z" fill="#6cc788"></path>
             </svg>
             <img src="/assets/images/logo.png" alt="." class="hide">
-            <span class="hidden-folded inline ng-binding">Flatkit</span>
+            <span class="hidden-folded inline ng-binding">Kwork-BlackList</span>
         </a>
         <ul class="nav navbar-nav pull-right">
             <li class="nav-item dropdown">
                 <a href="" class="nav-link dropdown-toggle clear" data-toggle="dropdown">
               <span class="avatar w-32">
-                <img src="/assets/images/a2.jpg" alt="...">
-                <i class="busy b-white right"></i>
+                <img src="{{ auth()->check() ? auth()->user()->avatar : asset('/assets/images/guest.png') }}" alt="...">
+                <i class="{{ auth()->check() ? "success" : 'busy' }} b-white right"></i>
               </span>
                 </a>
-                <div class="dropdown-menu pull-right dropdown-menu-scale ng-scope">
-                    <a class="dropdown-item" href="{{ route('settings') }}"><span>Settings</span></a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ route('logout') }}">Sign out</a>
-                </div>
+                @if(auth()->check())
+                    <div class="dropdown-menu pull-right dropdown-menu-scale ng-scope">
+                        <a class="dropdown-item" href="{{ route('settings') }}"><small>Настройки</small></a>
+                        <a class="dropdown-item" href="{{ route('settings') }}"><small>Новый заказчик</small></a>
+                        <a class="dropdown-item" href="{{ route('settings') }}"><small>Новый репорт</small></a>
+
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ route('logout') }}"><small>Выход</small></a>
+                    </div>
+                @else
+                    <div class="dropdown-menu pull-right dropdown-menu-scale ng-scope">
+                        <a class="dropdown-item" href="{{ route('register') }}"><small>Регистрация</small></a>
+                        <a class="dropdown-item" href="{{ route('login') }}"><small>Вход</small></a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ route('about') }}"><small>Что здесь происходит?</small></a>
+                    </div>
+                @endif
             </li>
         </ul>
         <div class="collapse navbar-toggleable-sm" id="navbar-4" data-pjax="">

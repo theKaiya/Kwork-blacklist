@@ -5,10 +5,8 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use App\Helpers\Traits\ApiHelper;
-use Illuminate\Http\Request;
 use App\Report;
 use App\Person;
-use Illuminate\Validation\Rules\In;
 
 class Search extends Controller
 {

@@ -11,7 +11,6 @@
 |
 */
 
-
 Route::get('/', 'SearchController@show')->name('home');
 
 Route::get('/reviews', 'ReportController@showAll')->name('reviews_list');
@@ -28,8 +27,14 @@ Route::get('/settings', 'SettingController@show')->name('settings');
 
 Route::any('/api/search.get', 'Api\Search@get');
 
-Route::any('/login', 'LoginController@show')->name('login');
+Route::group(['namespace' => 'Auth'], function () {
+    Route::get('/login', 'LoginController@show')->name('login');
+    Route::post('/login', 'LoginController@action')->name('login_action');
 
-Route::any('/logout', 'LoginController@logout')->name('logout');
+    Route::get('/register', 'RegisterController@show')->name('register');
+    Route::post('/register', 'RegisterController@action')->name('register_action');
 
-Route::any('/register', 'RegisterController@show')->name('register');
+    Route::any('/logout', 'LoginController@logout')->name('logout');
+});
+
+Route::any('/about', 'PageController@about')->name('about');
