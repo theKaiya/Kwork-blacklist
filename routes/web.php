@@ -15,21 +15,25 @@ Route::get('/', 'SearchController@show')->name('home');
 
 Route::get('/reviews', 'ReportController@showAll')->name('reviews_list');
 
-Route::get('/reviews/add', 'ReportController@show_creating_page')->name('reviews_create');
-Route::post('/reviews/add', 'ReportController@create_action')->name('reviews_create_action');
-
 Route::get('/reviews/{id}', 'ReportController@show')->name('review_show');
 
 Route::get('/people', 'PeopleController@showAll')->name('people_list');
 
-Route::get('/people/add', 'PeopleController@create')->name('people_create');
-Route::post('/people/add', 'PeopleController@create_action')->name('people_create_action');
-
 Route::get('/people/{id}', 'PeopleController@show')->name('people_show');
 
-Route::get('/settings', 'SettingController@show')->name('settings');
-
 Route::any('/api/search.get', 'Api\Search@get');
+
+Route::group(['middleware' => 'auth'], function () {
+
+    Route::get('/reviews/add', 'ReportController@show_creating_page')->name('reviews_create');
+    Route::post('/reviews/add', 'ReportController@create_action')->name('reviews_create_action');
+
+    Route::get('/people/add', 'PeopleController@create')->name('people_create');
+    Route::post('/people/add', 'PeopleController@create_action')->name('people_create_action');
+
+    Route::get('/settings', 'SettingController@show')->name('settings');
+
+});
 
 Route::group(['namespace' => 'Auth'], function () {
     Route::get('/login', 'LoginController@show')->name('login');

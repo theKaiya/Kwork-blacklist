@@ -85,6 +85,9 @@ class ParsePerson
         return true;
     }
 
+    /**
+     * @return \Symfony\Component\DomCrawler\Crawler
+     */
     public function getUsername ()
     {
         if($this->username)
@@ -112,6 +115,8 @@ class ParsePerson
     }
 
     /**
+     * Store avatar to local storage.
+     *
      * @return string
      */
     public function storeAvatar ()

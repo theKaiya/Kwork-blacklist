@@ -10,7 +10,7 @@ trait ApiHelper
      */
     public function response ($items)
     {
-        $items = $items->paginate(1);
+        $items = $items->paginate(12);
 
         return response()->json([
            'response' => $items,

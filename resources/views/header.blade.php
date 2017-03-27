@@ -71,8 +71,8 @@
                 @if(auth()->check())
                     <div class="dropdown-menu pull-right dropdown-menu-scale ng-scope">
                         <a class="dropdown-item" href="{{ route('settings') }}"><small>Настройки</small></a>
-                        <a class="dropdown-item" href="{{ route('settings') }}"><small>Новый заказчик</small></a>
-                        <a class="dropdown-item" href="{{ route('settings') }}"><small>Новый репорт</small></a>
+                        <a class="dropdown-item" href="{{ route('people_create') }}"><small>Новый заказчик</small></a>
+                        <a class="dropdown-item" href="{{ route('reviews_create') }}"><small>Новый репорт</small></a>
 
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('logout') }}"><small>Выход</small></a>

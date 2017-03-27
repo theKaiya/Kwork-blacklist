@@ -105,11 +105,15 @@ class Search extends Controller
     }
 
     /**
+     * Search.
+     *
      * @param $item
      * @return mixed
      */
     public function query($item)
     {
+        $q = Input::get('query');
+
         if($this->section == 'reports') {
             return $item->where('title', 'like', "%".$q."%")
                 ->whereHas('person', function ($person) use ($q) {
