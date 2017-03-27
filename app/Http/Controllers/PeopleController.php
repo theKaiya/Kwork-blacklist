@@ -6,9 +6,9 @@ use App\Person;
 
 class PeopleController extends Controller
 {
-    public function show (Person $person)
+    public function show ($id)
     {
-        $person = $person->withCount('reports')->first();
+        $person = Person::withCount('reports')->findOrFail($id);
 
         return view('people.show', [
            'person' => $person,

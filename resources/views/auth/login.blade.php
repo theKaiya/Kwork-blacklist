@@ -8,6 +8,7 @@
             Авторизация
         </div>
         <form name="form" action="{{ route('login_action') }}" method="post">
+            @include('errors.session')
             <div class="md-form-group float-label">
                 <input name="usernameOrEmail" type="text" class="md-input" required>
                 <label>Имя пользователя или Емейл</label>

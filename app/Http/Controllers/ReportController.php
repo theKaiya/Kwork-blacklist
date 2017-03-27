@@ -35,12 +35,12 @@ class ReportController extends Controller
     /**
      * Show current review.
      *
-     * @param Report $report
+     * @param integer $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show (Report $report)
+    public function show ($id)
     {
-        $report = $report->with('user', 'images', 'person')->first();
+        $report = Report::with('user', 'images', 'person')->findOrFail($id);
 
         return view('reviews.show', [
            'report' => $report,

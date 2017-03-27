@@ -17,11 +17,11 @@ Route::get('/reviews', 'ReportController@showAll')->name('reviews_list');
 
 Route::get('/reviews/add', 'ReportController@showAll')->name('reviews_add');
 
-Route::get('/reviews/{report}', 'ReportController@show')->name('review_show');
+Route::get('/reviews/{id}', 'ReportController@show')->name('review_show');
 
 Route::get('/people', 'PeopleController@showAll')->name('people_list');
 
-Route::get('/people/{person}', 'PeopleController@show')->name('people_show');
+Route::get('/people/{id}', 'PeopleController@show')->name('people_show');
 
 Route::get('/settings', 'SettingController@show')->name('settings');
 
