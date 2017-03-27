@@ -26,4 +26,22 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    protected $appends = [
+      'avatar'
+    ];
+
+
+    public function picture ()
+    {
+        return $this->hasOne(UserAvatar::class, 'user_id', 'id');
+    }
+
+    public function getAvatarAttribute ()
+    {
+        if($this->relationLoaded('picture') && $this->picture) {
+            return $this->picture->url;
+        }
+        return asset('/assets/images/avatar.jpg');
+    }
 }
