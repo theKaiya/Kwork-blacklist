@@ -7,8 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Report extends Model
 {
 
+    protected $fillable = [
+      'people_id', 'user_id', 'text', 'title', 'is_activated'
+    ];
+
     protected $appends = [
-      'short_text', 'link'
+      'short_text', 'link',
     ];
 
     public function person ()

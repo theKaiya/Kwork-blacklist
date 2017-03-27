@@ -14,4 +14,20 @@ class PeopleController extends Controller
            'person' => $person,
         ]);
     }
+
+    /**
+     * Return a create person view.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create ()
+    {
+        return view('people.create');
+    }
+
+    public function create_action ()
+    {
+        //
+    }
+
 }

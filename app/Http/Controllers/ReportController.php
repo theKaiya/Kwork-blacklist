@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Report;
+use App\ReportImage;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use App\Person;
+use App\Report;
+use Validator;
+use Image;
 
 class ReportController extends Controller
 {
@@ -47,13 +52,98 @@ class ReportController extends Controller
         ]);
     }
 
-    public function create ()
+    /**
+     * Return a create person view.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function show_creating_page ()
     {
-
+        return view('reviews.create', [
+            'persons' => Person::all(),
+        ]);
     }
 
-    public function create_action ()
+    public function create_action (Request $request)
     {
+        $this->validator($request);
+
+        $report = $this->create($request);
+
+        if($report) {
+            return redirect()->back()->with('success', 'После модерации отзыв будет доступе на сайте.');
+        }
+
+        return redirect()->back()->with('error', 'Что-то пошло не так. Свяжитесь с администрацией.');
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function validator (Request $request)
+    {
+        return $this->validate($request, [
+            'title' => 'required|max:255',
+            'description' => 'required|max:255',
+            'images' => 'image|mimes:jpg,png',
+            'people' => 'required|integer',
+        ]);
+    }
+
+
+    /**
+     * Create a new report instance.
+     *
+     * @param Request $request
+     * @return mixed
+     */
+    public function create (Request $request)
+    {
+        $report = Report::create([
+           'user_id' => auth()->user()->id,
+           'people_id' => $request->get('people'),
+           'title' => $request->get('title'),
+           'text' => $request-> get('description'),
+           'is_activated' => 0,
+        ]);
+
+        if($request->hasFile('images'))
+            $this->uploadImages($report);
+
+        return $report;
+    }
+
+    /**
+     * Upload report images.
+     *
+     * @param Report $report
+     */
+    public function uploadImages (Report $report)
+    {
+        $files = Input::file('images');
+
+        if(!is_array($files))
+            $files[] = $files;
+
+        $images = [];
+
+        foreach($files as $file)
+        {
+            $path = "/uploads/reports/".Carbon::now()->timestamp.'/';
+
+            $image = str_random(15).'.jpg';
+
+            Image::make($file)->save(public_path($path.$image));
+
+            $images[] = [
+              'user_id' => $report->user_id,
+              'report_id' => $report->id,
+              'path' => $path,
+              'image' => $image,
+            ];
+        }
+
+        ReportImage::insert($images);
 
     }
 }

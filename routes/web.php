@@ -15,11 +15,14 @@ Route::get('/', 'SearchController@show')->name('home');
 
 Route::get('/reviews', 'ReportController@showAll')->name('reviews_list');
 
-Route::get('/reviews/add', 'ReportController@showAll')->name('reviews_add');
+Route::get('/reviews/add', 'ReportController@show_creating_page')->name('reviews_create');
+Route::post('/reviews/add', 'ReportController@create_action')->name('reviews_create_action');
 
 Route::get('/reviews/{id}', 'ReportController@show')->name('review_show');
 
 Route::get('/people', 'PeopleController@showAll')->name('people_list');
+
+Route::get('/people/add', 'PeopleController@create')->name('people_create');
 
 Route::get('/people/{id}', 'PeopleController@show')->name('people_show');
 

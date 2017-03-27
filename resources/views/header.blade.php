@@ -23,11 +23,14 @@
     <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="/assets/material-design-icons/material-design-icons.css" type="text/css" />
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+
     <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="/assets/styles/app.min.css">
     <link rel="stylesheet" href="/assets/styles/font.css" type="text/css" />
     <link rel="stylesheet" href="/assets/css/lightslider.css" type="text/css" />
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     <script src="/libs/angular/angular/angular.js"></script>
 
     <style>
@@ -108,7 +111,6 @@
     </div>
 </div>
 
-<script src="/libs/jquery/jquery/dist/jquery.js"></script>
 <script src="/libs/jquery/tether/dist/js/tether.min.js"></script>
 <script src="/libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
 <script src="/assets/js/lightslider.js"></script>
