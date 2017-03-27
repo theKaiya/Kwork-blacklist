@@ -37,7 +37,7 @@
                             <div class="list-item box r m-b">
                                 <a herf class="list-left">
                                     <span class="w-40 avatar">
-                                      <img ng-src="@{{ user.avatar }}" alt="...">
+                                      <img ng-src="@{{ user.image }}" alt="...">
                                       <!--
                                       <i class="on b-white bottom"></i>
                                       -->

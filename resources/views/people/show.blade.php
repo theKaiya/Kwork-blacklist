@@ -16,7 +16,7 @@
                         <img src="{{ asset('/assets/images/background.jpg')  }}">
                     </div>
                     <div class="p-a-lg pos-rlt text-center">
-                        <img src="{{ $person->avatar }}" class="img-circle w-56" style="margin-bottom: -7rem">
+                        <img src="{{ $person->image }}" class="img-circle w-56" style="margin-bottom: -7rem">
                     </div>
                 </div>
                 <div class="p-a text-center">

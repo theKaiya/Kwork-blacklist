@@ -7,8 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Person extends Model
 {
 
+    protected $fillable = [
+      'username', 'avatar', 'url'
+    ];
+
     protected $appends = [
-      'link'
+      'link', 'image'
     ];
 
     /**
@@ -27,5 +31,10 @@ class Person extends Model
     public function reports ()
     {
         return $this->hasMany(Report::class, 'people_id', 'id');
+    }
+
+    public function getImageAttribute ()
+    {
+        return asset($this->avatar);
     }
 }

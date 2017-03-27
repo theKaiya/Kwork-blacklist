@@ -23,6 +23,7 @@ Route::get('/reviews/{id}', 'ReportController@show')->name('review_show');
 Route::get('/people', 'PeopleController@showAll')->name('people_list');
 
 Route::get('/people/add', 'PeopleController@create')->name('people_create');
+Route::post('/people/add', 'PeopleController@create_action')->name('people_create_action');
 
 Route::get('/people/{id}', 'PeopleController@show')->name('people_show');
 
