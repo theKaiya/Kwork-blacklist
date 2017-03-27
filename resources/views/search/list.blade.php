@@ -35,7 +35,7 @@
                     <div class="row row-sm">
                         <div class="col-xs-6 col-lg-4" ng-repeat="user in items.get().items">
                             <div class="list-item box r m-b">
-                                <a herf class="list-left">
+                                <a hreh="@{{ user.link }}" class="list-left">
                                     <span class="w-40 avatar">
                                       <img ng-src="@{{ user.image }}" alt="...">
                                       <!--
