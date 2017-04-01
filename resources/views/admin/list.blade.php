@@ -50,9 +50,6 @@
         </div>
         <div class="col-sm col-md-6">
             <div ui-view="" class="padding pos-rlt">
-                <a href="" class="md-btn md-fab md-fab-bottom-right pos-fix red">
-                    <i class="material-icons i-24 text-white"></i>
-                </a>
                 <div>
                     <!-- header -->
                     <div class="m-b">

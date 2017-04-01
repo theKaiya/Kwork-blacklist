@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('/test', function () {
-    return view('test');
-});
-
 Route::get('/', 'SearchController@show')->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
@@ -52,8 +48,8 @@ Route::group(['namespace' => 'Auth'], function () {
     Route::any('/logout', 'LoginController@logout')->name('logout');
 });
 
-Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'namespace' => 'Admin'], function () {
-    Route::get('/list', 'ReviewController@showAll');
+Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
+    Route::get('/list', 'AdminController@showAll');
 });
 
 Route::group(['namespace' => 'Api\Admin', 'prefix' => 'admin'], function () {

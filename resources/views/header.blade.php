@@ -148,7 +148,9 @@
 <script src="/libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
 <script src="/assets/js/lightslider.js"></script>
 <script src="/assets/js/url.min.js"></script>
+<script src="/assets/js/angular/helpers.js"></script>
 <script src="/assets/js/angular/app.js"></script>
+<script src="/assets/js/angular/directivies/common.js"></script>
 
 @yield('scripts')
 </body>
