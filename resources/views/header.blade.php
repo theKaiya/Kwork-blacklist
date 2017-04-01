@@ -95,8 +95,10 @@
                     <div class="dropdown-menu pull-right dropdown-menu-scale ng-scope">
                         <a class="dropdown-item" href="{{ route('register') }}"><small>Регистрация</small></a>
                         <a class="dropdown-item" href="{{ route('login') }}"><small>Вход</small></a>
+                        <!--
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('about') }}"><small>Что здесь происходит?</small></a>
+                        -->
                     </div>
                 @endif
             </li>
