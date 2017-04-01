@@ -6,13 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Report extends Model
 {
-
     protected $fillable = [
-      'people_id', 'user_id', 'text', 'title', 'is_activated'
+      'people_id', 'user_id', 'text', 'title', 'is_accepted'
     ];
 
     protected $appends = [
-      'short_text', 'link',
+      'short_desc', 'medium_desc', 'link', 'author_username', 'author_picture', 'person_username'
     ];
 
     public function person ()
@@ -39,7 +38,7 @@ class Report extends Model
     /**
      * @return string
      */
-    public function getShortTextAttribute ()
+    public function getShortDescAttribute ()
     {
         return str_limit($this->text, 50);
     }
@@ -50,5 +49,36 @@ class Report extends Model
     public function getLinkAttribute ()
     {
         return route('review_show', $this->id);
+    }
+
+    /**
+     * Get a medium text.
+     *
+     * @return string
+     */
+    public function getMediumDescAttribute ()
+    {
+        return str_limit($this->text, 300);
+    }
+
+    public function getAuthorUsernameAttribute ()
+    {
+        if($this->relationLoaded('user')) {
+            return $this->user ? $this->user->username : "Пользователь был удален";
+        }
+    }
+
+    public function getAuthorPictureAttribute ()
+    {
+        if($this->relationLoaded('user')) {
+            return $this->user ? $this->user->avatar : deletedPicture();
+        }
+    }
+
+    public function getPersonUsernameAttribute ()
+    {
+        if($this->relationLoaded('person')) {
+            return $this->person ? $this->person->username : 'Kwork';
+        }
     }
 }

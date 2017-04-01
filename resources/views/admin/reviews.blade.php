@@ -1,75 +1,54 @@
 @extends('header')
 
-@@section('title') Просмотр отзывов  @endsection
+@section('title') Просмотр отзывов  @endsection
 
 @section('main')
-    <div class="row-col">
-        <div class="col-sm w w-auto-xs light lt bg-auto">
+    <div class="row-col" ng-controller="Admin">
+        <div class="col-sm w light lt bg-auto">
             <div class="padding pos-rlt">
                 <div>
                     <button class="btn btn-sm white pull-right hidden-sm-up" ui-toggle-class="show" target="#inbox-menu"><i class="fa fa-bars"></i></button>
-                    <a href="" class="btn btn-sm white w-xs">Compose</a>
                 </div>
                 <div class="hidden-xs-down m-t" id="inbox-menu">
-                    <div class="nav-active-primary">
-                        <div class="nav nav-pills nav-sm">
-                            <a class="nav-link active">
-                                Inbox
-                            </a>
-                            <a class="nav-link">
-                                Starred
-                            </a>
-                            <a class="nav-link">
-                                Sent
-                            </a>
-                            <a class="nav-link">
-                                Important
-                            </a>
-                            <a class="nav-link">
-                                Draft
-                            </a>
-                            <a class="nav-link">
-                                Trash
-                            </a>
-                        </div>
-                    </div>
-                    <div class="m-y">Labels</div>
-                    <div class="nav-active-white">
-                        <ul class="nav nav-pills nav-stacked nav-sm">
+                    <div class="nav-active-border b-success left">
+                        <ul class="nav nav-sm">
                             <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="fa m-r-sm fa-circle text-primary"></i>
-                                    Angular
+                                <a ng-click="switchSection('reviews')" ng-class="{active: section == 'reviews'}" class="nav-link" href="">
+                                    Отзывы
                                 </a>
-                                <a class="nav-link">
-                                    <i class="fa m-r-sm fa-circle text-info"></i>
-                                    Bootstrap
+                                <items-count ng-show="section == 'reviews'" />
+                            </li>
+                            <li class="nav-item">
+                                <a ng-click="switchSection('users')" ng-class="{active: section == 'users'}" class="nav-link" href="">
+                                    Пользователи
                                 </a>
-                                <a class="nav-link">
-                                    <i class="fa m-r-sm fa-circle text-warn"></i>
-                                    Client
+                                <items-count ng-show="section == 'users'" />
+                            </li>
+                            <li class="nav-item">
+                                <a ng-click="switchSection('customers')" ng-class="{active: section == 'customers'}" class="nav-link" href="">
+                                    Заказчики
                                 </a>
-                                <a class="nav-link">
-                                    <i class="fa m-r-sm fa-circle text-accent"></i>
-                                    Work
-                                </a>
+                                <items-count ng-show="section == 'customers'" />
                             </li>
                         </ul>
                     </div>
-                    <div class="p-y">
-                        <form name="label">
-                            <div class="input-group">
-                                <input type="text" class="form-control form-control-sm" placeholder="New label" required="">
-                                <span class="input-group-btn">
-                <button class="btn btn-default btn-sm no-shadow" type="button">Add</button>
-              </span>
-                            </div>
-                        </form>
+                    <div class="m-y">Настройки</div>
+                    <div class="nav-active-white">
+                        <ul class="nav nav-pills nav-stacked nav-md">
+                            <li class="nav-item">
+                                <div ng-if="section == 'reviews'">
+                                    @include('admin.components.reviews.review_settings')
+                                </div>
+                                <div ng-if="section == 'users'">
+                                    @include('admin.components.users.user_settings')
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-sm">
+        <div class="col-sm col-md-6">
             <div ui-view="" class="padding pos-rlt">
                 <a href="" class="md-btn md-fab md-fab-bottom-right pos-fix red">
                     <i class="material-icons i-24 text-white"></i>
@@ -77,23 +56,16 @@
                 <div>
                     <!-- header -->
                     <div class="m-b">
-                        <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-sm white"><i class="fa fa-chevron-left"></i></button>
-                            <button type="button" class="btn btn-sm white"><i class="fa fa-chevron-right"></i></button>
-                        </div>
                         <div class="btn-toolbar">
-                            <div class="btn-group dropdown">
-                                <button class="btn white btn-sm dropdown-toggle" data-toggle="dropdown">
-                                    <span class="dropdown-label">Filter</span>
-                                    <span class="caret"></span>
-                                </button>
-                                <div class="dropdown-menu text-left text-sm">
-                                    <a class="dropdown-item" href="">Unread</a>
-                                    <a class="dropdown-item" href="">Starred</a>
-                                </div>
-                            </div>
-                            <div class="btn-group">
-                                <button class="btn btn-sm white" data-toggle="tooltip" data-placement="bottom" data-title="Refresh" data-original-title="" title=""><i class="fa fa-refresh"></i></button>
+                            <div class="input-group">
+                                <input
+                                        ng-change="updateQuery()"
+                                        ng-model="query"
+                                        ng-model-options="{debounce: 500}"
+                                        name="query"
+                                        type="text"
+                                        class="form-control form-control-sm p-x b-a rounded"
+                                        placeholder="Найти что-то...">
                             </div>
                         </div>
                     </div>
@@ -101,38 +73,28 @@
 
                     <!-- list -->
                     <div class="list white">
-                        <div class="list-item b-l b-l-2x b-info">
-                            <div class="list-left">
-              <span class="w-40 avatar">
-                <img src="../assets/images/a0.jpg">
-              </span>
-                            </div>
-                            <div class="list-body">
-                                <div class="pull-right text-muted text-xs">
-                                    <span class="hidden-xs">5, July</span>
-                                    <i class="fa fa-paperclip m-l-sm"></i>
-                                </div>
-                                <div>
-                                    <a href="" class="_500">Bootstrap components written in pure AngularJS</a>
-                                    <span class="label label-xs m-l-sm text-u-c">Bootstrap</span>
-                                </div>
-                                <div class="text-ellipsis text-muted text-sm">Retur adipiscing elit. Morbi id neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat. Vestibulum ullamcorper Neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat.</div>
-                            </div>
+                        <div ng-show="section == 'reviews'">
+                            @include('admin.components.reviews.repeat')
                         </div>
 
+                        <div ng-show="section == 'users'">
+                            @include('admin.components.users.repeat')
+                        </div>
 
-
-
-
-
-
-
-
+                        <div ng-show="section == 'customers'">
+                            @include('admin.components.customers.repeat')
+                        </div>
+                        <br>
                     </div>
+
+                    @include('components.buttons.ajax')
                     <!-- / list -->
                 </div>
-
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script src="/assets/js/angular/controllers/admin.js"></script>
 @endsection

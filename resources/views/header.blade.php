@@ -3,19 +3,21 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Flatkit - @yield('title')</title>
-    <meta name="description" content="Admin, Dashboard, Bootstrap, Bootstrap 4, Angular, AngularJS" />
+    <title>Kwork BlackList - @yield('title')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="description" content="@yield('seo_desc')">
+    <meta name="keywords" content="@yield('seo_keywords')">
+    <meta name="author" content="https://github.com/theKaiya">
 
     <!-- for ios 7 style, multi-resolution icon of 152x152 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-barstyle" content="black-translucent">
     <link rel="apple-touch-icon" href="/assets/images/logo.png">
-    <meta name="apple-mobile-web-app-title" content="Flatkit">
     <!-- for Chrome on Android, multi-resolution icon of 196x196 -->
     <meta name="mobile-web-app-capable" content="yes">
-    <link rel="shortcut icon" sizes="196x196" href="../assets/images/logo.png">
+    <link rel="shortcut icon" sizes="196x196" href="/assets/images/logo.png">
 
     <!-- style -->
     <link rel="stylesheet" href="/assets/animate.css/animate.min.css" type="text/css" />
@@ -40,8 +42,17 @@
     </style>
 
     <script>
-        var auth = "{{ auth()->check() }}";
+        var auth = {
+            check: {{ u() ? 1 : 0 }},
+            id: {{ u() ? u()->id : 0 }},
+            is_admin: {{ u() ? u()->is_admin : 0 }},
+            email: "{{ u() ? u()->email : null }}"
+        };
         var sign_in_to_continue = 2;
+
+        let settings = {
+            url: "{{ url('/').'/' }}"
+        };
     </script>
 
 </head>
@@ -62,14 +73,17 @@
         </a>
         <ul class="nav navbar-nav pull-right">
             <li class="nav-item dropdown">
-                <a href="" class="nav-link dropdown-toggle clear" data-toggle="dropdown">
-              <span class="avatar w-32">
-                <img src="{{ auth()->check() ? auth()->user()->avatar : asset('/assets/images/guest.png') }}" alt="...">
-                <i class="{{ auth()->check() ? "success" : 'busy' }} b-white right"></i>
-              </span>
+                <a href="" class="nav-link p-l b-l" data-toggle="dropdown">
+                  <span class="avatar w-32">
+                    <img src="{{ u() ? u()->avatar : asset('/assets/images/guest.png') }}" alt="...">
+                    <i class="{{ u() ? "success" : 'busy' }} b-white right"></i>
+                  </span>
                 </a>
-                @if(auth()->check())
+                @if(u())
                     <div class="dropdown-menu pull-right dropdown-menu-scale ng-scope">
+                        @if(u()->can('see-admin-area'))
+                            <a class="dropdown-item" href="/admin/list"><small>Админка</small></a>
+                        @endif
                         <a class="dropdown-item" href="{{ route('settings') }}"><small>Настройки</small></a>
                         <a class="dropdown-item" href="{{ route('people_create') }}"><small>Новый заказчик</small></a>
                         <a class="dropdown-item" href="{{ route('reviews_create') }}"><small>Новый репорт</small></a>
@@ -113,6 +127,20 @@
 <div class="app-body">
     <div id="content" class="app-content box-shadow-z0 ng-scope" role="main" ng-app="BlackList">
         @yield('main')
+    </div>
+    <div class="app-footer white ng-scope">
+        <div class="p-a text-xs ng-scope">
+            <div class="pull-right text-muted">© Copyright
+                <strong class="ng-binding"><a href="https://themeforest.net/user/flatfull/portfolio?ref=theKaiya">Flatfull</a> & <a href="https://github.com/theKaiya">TheKaiya</a></strong>
+                <span class="hidden-xs-down ng-binding">- Made in one night v0.1</span>
+                <a><i class="fa fa-long-arrow-up p-x-sm"></i></a>
+            </div>
+            <div class="nav">
+                <a class="nav-link" href="https://github.com/theKaiya/Kwork-blacklist">About</a>
+                <span class="text-muted">-</span>
+                <a class="nav-link label accent" href="https://github.com/theKaiya/Kwork-blacklist">Get it</a>
+            </div>
+        </div>
     </div>
 </div>
 

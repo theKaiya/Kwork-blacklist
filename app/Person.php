@@ -6,13 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Person extends Model
 {
-
     protected $fillable = [
-      'username', 'avatar', 'url'
+      'username', 'avatar', 'url', 'name'
     ];
 
     protected $appends = [
-      'link', 'image'
+      'link', 'image', 'short_name'
     ];
 
     /**
@@ -36,5 +35,10 @@ class Person extends Model
     public function getImageAttribute ()
     {
         return asset($this->avatar);
+    }
+
+    public function getShortNameAttribute ()
+    {
+        return str_limit($this->name, 20);
     }
 }

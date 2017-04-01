@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\ReportImage;
-use Carbon\Carbon;
 use App\Person;
 use App\Report;
 use Validator;
@@ -48,8 +48,12 @@ class ReportController extends Controller
     {
         $report = Report::with('user', 'images', 'person')->findOrFail($id);
 
+        if(!$report->is_accepted && !Gate::allows('see-admin-area')) {
+            abort(404);
+        }
+
         return view('reviews.show', [
-           'report' => $report,
+            'report' => $report,
         ]);
     }
 
@@ -65,6 +69,10 @@ class ReportController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function create_action (Request $request)
     {
         $this->validator($request);
@@ -85,9 +93,8 @@ class ReportController extends Controller
     {
         return $this->validate($request, [
             'title' => 'required|max:255',
-            'description' => 'required|max:255',
+            'description' => 'required|max:5000',
             'images.*' => 'image|mimes:jpg,png',
-            'people' => 'required|integer',
         ]);
     }
 
@@ -103,8 +110,8 @@ class ReportController extends Controller
         $report = Report::create([
            'user_id' => auth()->user()->id,
            'people_id' => $request->get('people'),
-           'title' => $request->get('title'),
-           'text' => $request-> get('description'),
+           'title' => clear($request->get('title')),
+           'text' => clear($request-> get('description')),
            'is_activated' => 0,
         ]);
 

@@ -35,6 +35,11 @@ class ParsePerson
      */
     protected $avatar;
 
+    /**
+     * @var
+     */
+    protected $name;
+
 
     /**
      * Saved person image path.
@@ -56,18 +61,15 @@ class ParsePerson
     /**
      * @return array|bool
      */
-    public function parse ()
+    public function parse (): array
     {
-        if($this->filter())
-            return true;
-
-        $username = $this->getUsername()->text();
-
-        $avatar = $this->saved_avatar;
+        if(!$this->filter())
+            return null;
 
         return [
-            'username' => $username,
-            'avatar' => $avatar,
+            'name' => $this->getName(),
+            'username' => $this->getUsername(),
+            'avatar' => $this->saved_avatar,
             'url' => $this->url,
         ];
     }
@@ -79,10 +81,10 @@ class ParsePerson
      */
     public function filter ()
     {
-        if(count($this->getUsername()) && count($this->getAvatar()))
-            return false;
+        if($this->getUsername() && $this->getAvatar())
+            return true;
 
-        return true;
+        return false;
     }
 
     /**
@@ -93,9 +95,33 @@ class ParsePerson
         if($this->username)
             return $this->username;
 
-        $this->username = $this->client->filter('h1[class="mt0"]')->first();
+        $this->username = $this->client->filter(
+            "div[class='userbannertext pull-left ml15 sm-pull-reset m-text-center m-m0'] h1"
+        )->first();
 
-        return $this->username;
+        if(count($this->username)) {
+            $this->username = $this->username->text();
+
+            return $this->username;
+        }
+
+        return null;
+    }
+
+    public function getName ()
+    {
+        if($this->name)
+            return $this->name;
+
+        $this->name = $this->client->filter("div[class='color-white sm-pull-reset mb10']")->first();
+
+        if(count($this->name)) {
+            $this->name = $this->name->text();
+
+            return $this->name;
+        }
+
+        return null;
     }
 
     /**
@@ -108,10 +134,13 @@ class ParsePerson
 
         $this->avatar = $this->client->filter('img[class="rounded"]')->first();
 
-        if($this->avatar)
+        if(count($this->avatar)) {
             $this->storeAvatar();
 
-        return $this->avatar;
+            return true;
+        }
+
+        return null;
     }
 
     /**
@@ -121,6 +150,13 @@ class ParsePerson
      */
     public function storeAvatar ()
     {
+        $avatar = $this->avatar->attr('src');
+
+        // if its a default avatar.
+        if(strpos($avatar, 'noprofilepicture') !== false) {
+            return $this->saved_avatar = "/assets/images/noprofilepicture.jpg";
+        }
+
         $path = 'uploads/people/'.Carbon::today()->timestamp;
 
         if(!is_dir(public_path($path))) {
@@ -131,8 +167,8 @@ class ParsePerson
 
         $f_path = $path.'/'.$image;
 
-        Image::make($this->avatar->attr('src'))->save($f_path);
+        Image::make($avatar)->save($f_path);
 
-        $this->saved_avatar = $f_path;
+        $this->saved_avatar = '/'.$f_path;
     }
 }

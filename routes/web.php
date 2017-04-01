@@ -11,6 +11,10 @@
 |
 */
 
+Route::get('/test', function () {
+    return view('test');
+});
+
 Route::get('/', 'SearchController@show')->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
@@ -22,6 +26,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/people/add', 'PeopleController@create_action')->name('people_create_action');
 
     Route::get('/settings', 'SettingController@show')->name('settings');
+
+    Route::post('/settings/security', 'SettingController@security')->name('settings_security');
+    Route::post('/settings/primary', 'SettingController@primary')->name('settings_primary');
 
 });
 
@@ -45,10 +52,16 @@ Route::group(['namespace' => 'Auth'], function () {
     Route::any('/logout', 'LoginController@logout')->name('logout');
 });
 
-Route::group(['prefx' => 'admin', 'middleware' => 'admin', 'namespace' => 'Admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'namespace' => 'Admin'], function () {
+    Route::get('/list', 'ReviewController@showAll');
+});
 
-    Route::get('/reviews', 'ReviewController@show');
+Route::group(['namespace' => 'Api\Admin', 'prefix' => 'admin'], function () {
+    Route::any('/api/users', 'Users@boot');
+    Route::any('/api/reviews', 'Reviews@boot');
+    Route::any('/api/customers', 'Customers@boot');
 
+    Route::any('/api/search', 'Search@boot');
 });
 
 Route::any('/about', 'PageController@about')->name('about');

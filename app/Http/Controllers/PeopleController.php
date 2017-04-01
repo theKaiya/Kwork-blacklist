@@ -47,6 +47,9 @@ class PeopleController extends Controller
     {
         $data = (new ParsePerson($request->url))->parse();
 
+        if(! $data)
+            return "Cant get.";
+
         if(!is_array($data))
             return redirect()->back()->with('error', "Error was occupied, contact support.");
 

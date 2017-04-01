@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
 use App\Helpers\Traits\ApiHelper;
 use App\Report;
@@ -59,8 +60,8 @@ class Search extends Controller
      */
     public function switchAct ($section)
     {
-        if($section == 'reports')
-            return $this->getReports();
+        if($section == 'reviews')
+            return $this->getReviews();
         return $this->getCustomers();
     }
 
@@ -69,12 +70,11 @@ class Search extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getReports ()
+    public function getReviews ()
     {
         $q = Input::get('query');
 
-        $reports = Report::where('is_activated', 1)
-            ->orderBy('id', 'desc')
+        $reports = Report::orderBy('id', 'desc')
             ->with('person', 'user');
 
         if($q) {
@@ -83,6 +83,10 @@ class Search extends Controller
 
         if($this->person_id) {
             $reports = $reports->where('people_id', $this->person_id);
+        }
+
+        if(!Gate::allows('see-admin-area')) {
+            $reports = $reports->where('is_accepted', 1);
         }
 
         return $this->response($reports);

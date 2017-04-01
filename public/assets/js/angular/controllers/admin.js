@@ -1,32 +1,42 @@
-app.controller('Search', function ($scope, $http) {
+app.controller('Admin', function ($scope, $http) {
 
     let act = 'section';
 
-    let states = ['reviews', 'customers'];
+    let states = ['reviews', 'users', 'customers'];
 
-    let person_id = typeof root_person_id != 'undefined' ? root_person_id : '';
+    $scope.s = new QuerySettings (states);
 
     $scope.section = _get.getEvenIfNotExist(act, states);
 
-    $scope.query = Url.queryString('query');
-
     $scope.items = new Container(act, states);
 
+    $scope.query = Url.queryString('query');
+
     $scope.switchSection = function (e) {
+        $scope.s.storeCurrentQuery(e);
+
         $scope.section = _get.setGetParameter(act, e, states);
 
-        if (typeof $scope.items.get($scope.section).items == 'undefined') {
-            $scope.getContent();
-        }
+        $scope.query = null;
+
+        $scope.getContent();
     };
+
+    $scope.changeSettings = function (param, blocked)
+    {
+        $scope.s.set(param, blocked);
+
+        $scope.getContent();
+    }
+
 
     $scope.getContent = function (more = false)
     {
         $scope.items.initialize(more);
 
-        var url = '/api/search.get?page=' + $scope.items.get().page;
+        var url = '/admin/api/search?page=' + $scope.items.get().page;
 
-        $http.post(url, {section: $scope.section, query: $scope.query, person_id: person_id}).then(function (s) {
+        $http.post(url, Url.parseQuery()).then(function (s) {
             $scope.items.convert(s.data.response, more);
         });
     };
@@ -38,5 +48,4 @@ app.controller('Search', function ($scope, $http) {
     }
 
     $scope.getContent();
-
 });

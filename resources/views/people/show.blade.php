@@ -29,15 +29,12 @@
                     </div>
                 </div>
             </div>
-
-            <div class="tab-pane p-v-sm active">
-                <div class="box m-t p-a-sm clear">
-                    <ul class="list">
-                        @include('components.search.repeat')
-                    </ul>
+                <div class="list white">
+                    <div ng-show="section == 'reviews'">
+                        @include('admin.components.reviews.repeat')
+                    </div>
                 </div>
                 @include('components.buttons.ajax')
-            </div>
         </div>
     </div>
 </div>

@@ -1,0 +1,13 @@
+<div class="box-tool" ng-show="user.email != item.email">
+    <ul class="nav">
+        <li class="nav-item inline dropdown">
+            <a class="nav-link text-muted p-x-xs" data-toggle="dropdown" aria-expanded="true"><i class="fa fa-ellipsis-v"></i></a>
+            <div class="dropdown-menu dropdown-menu-scale pull-right">
+                <a ng-show="section == 'customers'" class="dropdown-item" href="{{ item.url }}">Профиль на Kwork</a>
+                <a ng-show="section == 'users'"   ng-click="setAdmin(item.id)" class="dropdown-item">{{ item.is_admin ? "Сделать пользователем" : "Сделать администратором" }}</a>
+                <a ng-show="section == 'reviews'" ng-click="accept(item.id)" class="dropdown-item">{{ item.is_accepted ? 'Отклонить' : 'Принять' }}</a>
+                <a ng-click="remove(item.id)" class="dropdown-item">Удалить</a>
+            </div>
+        </li>
+    </ul>
+</div>

@@ -16,11 +16,9 @@ class CreateReportsTable extends Migration
         Schema::create('reports', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->integer('people_id')->unsigned();
+            $table->integer('people_id')->nullable();
             $table->string('title');
-            $table->string('text');
-            $table->integer('is_customer')->default(0);
-            $table->integer('is_freelancer')->default(0);
+            $table->text('text');
             $table->integer('is_activated')->default(0);
             $table->timestamps();
         });

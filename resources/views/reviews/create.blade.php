@@ -11,11 +11,11 @@
                     @include('errors.session')
                     <div class="form-group">
                         <label>Заголовок</label>
-                        <input name="title" type="text" class="form-control" placeholder="Меня обманули..." required>
+                        <input name="title" type="text" class="form-control" placeholder="Меня обманули..." required value="{{ old('title') }}">
                     </div>
                     <div class="form-group">
                         <label>Описание</label>
-                        <textarea name="description" class="form-control" placeholder="..." required></textarea>
+                        <textarea name="description" class="form-control" placeholder="..." required>{{ old('description') }}</textarea>
                     </div>
 
                     <div class="form-group">
@@ -25,7 +25,7 @@
 
                     <div class="form-group">
                         <label>Заказчик</label><br>
-                        <select name="people" class="select-person form-control" required>
+                        <select name="people" class="select-person form-control">
                             @foreach($persons as $person)
                                 <option value="{{ $person->id }}">{{ $person->username }}</option>
                             @endforeach

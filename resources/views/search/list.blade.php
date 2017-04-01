@@ -2,6 +2,14 @@
 
 @section('title') Поиск заказчиков @endsection
 
+@section('seo_desc')
+Просмотр всех отзывов о KWORK.
+@endsection
+
+@section('seo_keywords')
+    Кворк.ру, отзывы, отзывы на фрилансеров kwork.ru, reviews kwork.ru, фриланс-биржа кворк отзывы
+@endsection
+
 @section('main')
     <div class="padding" ng-controller="Search">
         <form action="#" class="m-b-md">
@@ -15,7 +23,7 @@
 
         <ul class="nav nav-sm nav-pills nav-active-primary clearfix">
             <li class="nav-item">
-                <a ng-click="switchSection('reports')" ng-class="{active: section == 'reports'}" class="nav-link">Репорты </a>
+                <a ng-click="switchSection('reviews')" ng-class="{active: section == 'reviews'}" class="nav-link">Отзывы </a>
             </li>
             <li class="nav-item">
                 <a ng-click="switchSection('customers')" ng-class="{active: section == 'customers'}" class="nav-link">Заказчики</a>
@@ -23,32 +31,17 @@
         </ul>
 
         <div class="tab-content">
-            <div ng-class="{active: section == 'reports'}" class="tab-pane p-v-sm">
-                <div class="box m-t p-a-sm clear" ng-show="items.get().items.length">
-                    <ul class="list">
-                        @include('components.search.repeat')
-                    </ul>
+            <div ng-class="{active: section == 'reviews'}" class="tab-pane p-v-sm">
+                <div class="m-t" ng-show="items.get().items.length">
+                    <div class="row row-sm">
+                        @include('components.reviews.repeat')
+                    </div>
                 </div>
             </div>
             <div ng-class="{active: section == 'customers'}" class="tab-pane p-v-sm">
                 <div class="m-t" ng-show="items.get().items.length">
                     <div class="row row-sm">
-                        <div class="col-xs-6 col-lg-4" ng-repeat="user in items.get().items">
-                            <div class="list-item box r m-b">
-                                <a hreh="@{{ user.link }}" class="list-left">
-                                    <span class="w-40 avatar">
-                                      <img ng-src="@{{ user.image }}" alt="...">
-                                      <!--
-                                      <i class="on b-white bottom"></i>
-                                      -->
-                                    </span>
-                                </a>
-                                <div class="list-body">
-                                    <div class="text-ellipsis"><a href="@{{ user.link }}">@{{ user.username }}</a></div>
-                                    <span class="label rounded warn"><a href="@{{ user.url }}">Kwork</a></span>
-                                </div>
-                            </div>
-                        </div>
+                        @include('admin.components.users.repeat')
                     </div>
                 </div>
             </div>
